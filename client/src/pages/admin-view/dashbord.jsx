@@ -5,5 +5,5 @@ function AdminDashbord() {
         </div>
      );
 }
-
+    
 export default AdminDashbord;
