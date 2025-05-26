@@ -10,7 +10,7 @@ const registerUser = async(req,res)=>{
         
         const hashPassword =await bcrypt.hash(password,10);
         const newUser = new User({
-            userName,email,hashPassword
+            userName,email,password:hashPassword
         })
         
         await newUser.save();
