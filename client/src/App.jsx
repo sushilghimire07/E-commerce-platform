@@ -1,7 +1,7 @@
 import { Route,Routes, } from "react-router-dom"
-import Authlayout from "./pages/auth/layout"
-import AuthLoign from "./pages/login"
-import AuthRegister from "./pages/register"
+import Authlayout from "./pages/layout"
+import AuthLoign from "./pages/auth/login"
+import AuthRegister from "./pages/auth/register"
 import AdminLayout from "./components/admin-view/layout"
 import AdminDashbord from "./pages/admin-view/dashbord"
 import AdminProducts from "./pages/admin-view/products"
@@ -17,8 +17,8 @@ import CheckAuth from "./components/common/check-auth"
 import UnauthPage from "./pages/unauth-page"
 function App() {
 
-    const isAuthenticated = true
-    const user=null
+    const isAuthenticated = false
+    const user=null;
 
 
   return (
