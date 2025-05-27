@@ -1,66 +1,95 @@
- import bcrypt from 'bcryptjs'
- import jwt from 'jsonwebtoken'
- import User from '../../models/User.js'
- 
- // register
-const registerUser = async(req,res)=>{
-    const {userName , email , password} = req.body;
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../../models/User.js';
 
-    try {
-        
-        const hashPassword =await bcrypt.hash(password,10);
-        const newUser = new User({
-            userName,email,password:hashPassword
-        })
-        
-        await newUser.save();
-        res.status(200).json({
-            sucess:true,
-            message:"Registration Sucesfull..!!"
-        })
-        
-    } catch (error) {
-        console.log("Error in authcontroller register "+error);
-        res.status(500).json({
-            sucess:false,
-            message:"Some error occured..!!"
-        })
-        
+// Register
+const registerUser = async (req, res) => {
+  const { userName, email, password } = req.body;
+
+  try {
+    const checkUser = await User.findOne({ email });
+    if (checkUser) {
+      return res.json({
+        success: false,
+        message: "User already exists with same email..!!"
+      });
     }
 
-}
+    const hashPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      userName,
+      email,
+      password: hashPassword
+    });
 
+    await newUser.save();
 
+    res.status(200).json({
+      success: true,
+      message: "Registration successful..!!"
+    });
 
+  } catch (error) {
+    console.log("Error in authcontroller register " + error);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred..!!"
+    });
+  }
+};
 
+// Login
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
- //login
-const login = async(req,res)=>{
-    const {} = req.body;
-
-    try {
-
-        
-        
-    } catch (error) {
-        console.log("Error in authcontroller login "+error);
-        res.status(500).json({
-            sucess:false,
-            message:"Some error occured..!!"
-        })
-        
+  try {
+    const checkUser = await User.findOne({ email });
+    if (!checkUser) {
+      return res.json({
+        success: false,
+        message: "User doesn't exist. Please register first..!!"
+      });
     }
-}
 
+    const checkPasswordMatch = await bcrypt.compare(password, checkUser.password);
+    if (!checkPasswordMatch) {
+      return res.json({
+        success: false,
+        message: "Invalid password. Please try again...!!"
+      });
+    }
 
+    const token = jwt.sign(
+      {
+        id: checkUser._id,
+        role: checkUser.role,
+        email: checkUser.email
+      },
+      process.env.CLIENT_SECRET_KEY,  
+      { expiresIn: '60m' }
+    );
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false // Change to true in production with HTTPS
+    }).json({
+      success: true,
+      message: "Logged in successfully..!!",
+      user: {
+        email: checkUser.email,
+        role: checkUser.role,
+        id: checkUser._id
+      }
+    });
 
+  } catch (error) {
+    console.log("Error in authcontroller login " + error);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred..!!"
+    });
+  }
+};
 
-
- //logout
-
-
-
- //auth middleware
-
- export { registerUser};
+// Export
+export { registerUser, loginUser };
