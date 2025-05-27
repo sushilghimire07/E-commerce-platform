@@ -71,7 +71,7 @@ const loginUser = async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: false // Change to true in production with HTTPS
+      secure: false 
     }).json({
       success: true,
       message: "Logged in successfully..!!",
@@ -91,5 +91,33 @@ const loginUser = async (req, res) => {
   }
 };
 
+
+const logoutUser= (req,res)=>{
+   res.clearCookie('token').json({
+  success: true,
+  message: 'Logged out successfully..!!'
+})
+}
+
+//auth middleware
+
+const authMiddleware = async(req,res,next)=>{
+    const token  =req.cookies.token;
+    if(!token) return res.status(401).json({
+        sucess:false,
+        message:"Unauthorized User..!!"
+    })
+    try {
+        const decoded = jwt.verify(token,process.env.CLIENT_SECRET_KEY)
+        req.user = decoded;
+        next()
+    } catch (error) {
+        res.status(401).json({
+             sucess:false,
+             message:"Unauthorized User..!!"
+        })
+    }
+}
+
 // Export
-export { registerUser, loginUser };
+export { registerUser, loginUser,logoutUser,authMiddleware };
