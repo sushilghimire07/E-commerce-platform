@@ -32,7 +32,7 @@ function App() {
 
 const { user, isAuthenticated, isLoading } = useSelector(state => state.auth);
 
- if(isLoading) return <Skeleton className="w-[800px] bg-black h-[600px] " />
+ if(isLoading) return <Skeleton className="w-full bg-black h-full " />
 
 
 

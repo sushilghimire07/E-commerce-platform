@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@radix-ui/react-select";
+} from "../ui/select";
 import { Button } from "../ui/button"
 
 function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText }) {
@@ -44,7 +44,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText 
             value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={controlItem.placeholder} />
+              <SelectValue placeholder={controlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {controlItem.options?.map((optionItem) => (
