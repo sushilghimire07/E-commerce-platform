@@ -23,9 +23,10 @@ function AdminProducts() {
 
   const [imageFile,setImageFile] = useState(null)
   const [uploadedImageUrl,setUploadedImageUrl] = useState('')
+  const [imageLoadingState,setImageLoadingState] = useState(false)
 
   function onSubmit(){
-
+    console.log(formData);
   }
 
   return (
@@ -48,12 +49,14 @@ function AdminProducts() {
          <SheetHeader> <SheetTitle>Add New Product</SheetTitle></SheetHeader>
 
            <ProductImageUpload imageFile={imageFile} setImageFile={setImageFile} 
-            uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl}/>
+            uploadedImageUrl={uploadedImageUrl} setUploadedImageUrl={setUploadedImageUrl}
+             setImageLoadingState={setImageLoadingState}
+            />
 
           <div className="mx-3 py-6">
             <CommonForm  onSubmit={onSubmit} formData={formData} setFormData={setFormData} 
                 buttonText="Add" formControls={addProductFormElements}/>
-
+          {/* {console.log(formData)} */}
           </div>
         </SheetContent>
       </Sheet>

@@ -5,7 +5,8 @@ import { UploadCloudIcon, XIcon, Image } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
 
-function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl }) {
+function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl
+   ,setImageLoadingState}) {
   const inputRef = useRef(null);
 
   function handleImageFileChange(event) {
@@ -36,18 +37,19 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
 
   async function uploadImageToCloudinary() {
     try {
-      const formData = new FormData();
-      formData.append("my_file", imageFile);
+      setImageLoadingState(true)
+      const data = new FormData();
+      data.append("my_file", imageFile);
 
       const response = await axios.post(
-        "http://localhost:3000/api/admin/products/upload-image",
-        formData
+        "http://localhost:3000/api/admin/products/upload-image",data
       );
 
       console.log("Upload response:", response);
 
       if (response.data?.success) {
         setUploadedImageUrl(response.data.result.url);
+        setImageLoadingState(false)
       } else {
         console.error("Upload failed:", response.data);
       }
@@ -58,7 +60,7 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
 
   useEffect(() => {
     if (imageFile !== null) {
-      uploadImageToCloudinary();
+     uploadImageToCloudinary()
     }
   }, [imageFile]);
 
