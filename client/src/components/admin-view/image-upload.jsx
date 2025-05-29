@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import {  UploadCloudIcon, XIcon,Image } from "lucide-react";
+import { UploadCloudIcon, XIcon, Image } from "lucide-react";
 import { Button } from "../ui/button";
+import axios from "axios";
 
 function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl }) {
   const inputRef = useRef(null);
@@ -29,9 +30,37 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
   function handleRemoveImage() {
     setImageFile(null);
     if (inputRef.current) {
-      inputRef.current.value = '';
+      inputRef.current.value = "";
     }
   }
+
+  async function uploadImageToCloudinary() {
+    try {
+      const formData = new FormData();
+      formData.append("my_file", imageFile);
+
+      const response = await axios.post(
+        "http://localhost:3000/api/admin/products/upload-image",
+        formData
+      );
+
+      console.log("Upload response:", response);
+
+      if (response.data?.success) {
+        setUploadedImageUrl(response.data.result.url);
+      } else {
+        console.error("Upload failed:", response.data);
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (imageFile !== null) {
+      uploadImageToCloudinary();
+    }
+  }, [imageFile]);
 
   return (
     <div className="w-full max-w-md mx-auto mt-4">
