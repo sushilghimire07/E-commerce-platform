@@ -4,9 +4,10 @@ import { Label } from "../ui/label";
 import { UploadCloudIcon, XIcon, Image } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
 
-function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl
-   ,setImageLoadingState}) {
+function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl 
+   ,setImageLoadingState,  imageLoadingState        }) {
   const inputRef = useRef(null);
 
   function handleImageFileChange(event) {
@@ -92,6 +93,7 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
             <span>Drag & Drop or click to upload image</span>
           </Label>
         ) : (
+          imageLoadingState?<Skeleton className="h-10 bg-gray-200 "/>:
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Image className="w-8 h-8 text-primary" />

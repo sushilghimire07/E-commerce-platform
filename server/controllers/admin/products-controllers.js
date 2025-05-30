@@ -22,7 +22,7 @@ const handleImageUpload = async (req, res) => {
 };
 
 // Add New Product
-const appProduct = async (req, res) => {
+const addProduct = async (req, res) => {
   try {
     const { image, title, description, category, brand, price, salePrice, totalStock } = req.body;
 
@@ -134,4 +134,4 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-export { handleImageUpload, appProduct, fetchAllProducts, editProduct, deleteProduct };
+export { handleImageUpload, addProduct, fetchAllProducts, editProduct, deleteProduct };
