@@ -23,6 +23,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText 
             id={controlItem.name}
             type={controlItem.type}
             value={value}
+            required
             onChange={(event) =>
               setFormData({
                 ...formData,

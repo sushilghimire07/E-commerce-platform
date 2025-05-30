@@ -65,6 +65,8 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
     }
   }, [imageFile]);
 
+  
+
   return (
     <div className="w-full max-w-md mx-auto mt-4">
       <Label className="text-lg font-semibold ml-5 mb-2 block">
