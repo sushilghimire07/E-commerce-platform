@@ -1,4 +1,5 @@
 import ProductImageUpload from "@/components/admin-view/image-upload";
+import AdminProductTile from "@/components/admin-view/product-tile";
 import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import {
@@ -75,7 +76,10 @@ function AdminProducts() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {/* You can map productsList here */}
+       {
+        productsList && productsList.length > 0 ?
+        productsList.map(productItem => <AdminProductTile product={productItem} />) :null
+       }
       </div>
 
       <Sheet
