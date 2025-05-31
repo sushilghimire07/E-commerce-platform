@@ -6,8 +6,18 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
 
-function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl 
-   ,setImageLoadingState,  imageLoadingState        }) {
+function ProductImageUpload({ 
+    imageFile,
+   setImageFile,
+   uploadedImageUrl,
+   setUploadedImageUrl ,
+   setImageLoadingState, 
+    imageLoadingState,
+    isEditMode   ,
+
+  }) {
+
+       console.log(isEditMode)
   const inputRef = useRef(null);
 
   function handleImageFileChange(event) {
@@ -76,7 +86,7 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="border-2 border-dashed rounded-lg p-4"
+        className={` ${isEditMode ? 'opacity-60' : ''}  border-2 border-dashed rounded-lg p-4`}
       >
         <Input
           id="image-upload"
@@ -84,12 +94,14 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
           ref={inputRef}
           onChange={handleImageFileChange}
           className="hidden"
+          disabled={isEditMode}
         />
 
         {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col items-center justify-center h-32 cursor-pointer text-center"
+            className={`${isEditMode ? `cursor-not-allowed` : ''} flex flex-col items-center
+             justify-center h-32 cursor-pointer text-center`}
           >
             <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
             <span>Drag & Drop or click to upload image</span>

@@ -11,6 +11,7 @@ import {
 import { addProductFormElements } from "@/config";
 import {
   addNewProduct,
+  editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
 import { Fragment, useEffect, useState } from "react";
@@ -36,13 +37,17 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const [currentEditedId,setCurrentEditedId] = useState(null)
 
   const { productsList } = useSelector((state) => state.AdminProducts);
   const dispatch = useDispatch();
 
-  // ✅ SUBMIT FUNCTION FIXED
   async function onSubmit(event) {
     event.preventDefault();
+
+    currentEditedId !== null ? despatch(editProduct({{ id : currentEditedId, formData }}))
+
+
     const resultAction = await dispatch(
       addNewProduct({
         ...formData,
@@ -78,17 +83,34 @@ function AdminProducts() {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
        {
         productsList && productsList.length > 0 ?
-        productsList.map(productItem => <AdminProductTile product={productItem} />) :null
+        productsList.map(productItem => <AdminProductTile  
+          key = {productItem._id}
+          setOpenCreateProductsDialog={setOpenCreateProductsDialog} 
+          setFormData = {setFormData}
+          setCurrentEditedId={setCurrentEditedId} product={productItem} />) :null
        }
       </div>
 
       <Sheet
         open={openCreateProductsDialog}
-        onOpenChange={setOpenCreateProductsDialog}
+        onOpenChange={()=>{
+          setOpenCreateProductsDialog(false)
+          setCurrentEditedId(null)
+          setFormData(initialFormData)
+        }
+
+        
+        }
+
       >
         <SheetContent side="right" className="overflow-y-scroll scrollbar-hide">
           <SheetHeader>
-            <SheetTitle>Add New Product</SheetTitle>
+            <SheetTitle>{
+          
+
+                currentEditedId !== null ? "Edit Product" : "Add new Product"
+
+          }</SheetTitle>
           </SheetHeader>
 
           <ProductImageUpload
@@ -98,6 +120,8 @@ function AdminProducts() {
             setUploadedImageUrl={setUploadedImageUrl}
             setImageLoadingState={setImageLoadingState}
             imageLoadingState={imageLoadingState}
+            isEditMode={currentEditedId !== null}
+
           />
 
           <div className="mx-3 py-6">
@@ -105,7 +129,7 @@ function AdminProducts() {
               onSubmit={onSubmit}
               formData={formData}
               setFormData={setFormData}
-              buttonText="Add"
+              buttonText={currentEditedId !== null ?"Edit" :"Add"}
               formControls={addProductFormElements}
             />
           </div>
