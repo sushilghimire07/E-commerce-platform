@@ -11,6 +11,7 @@ import {
 import { addProductFormElements } from "@/config";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
@@ -44,6 +45,15 @@ function AdminProducts() {
   return Object.values(formData).every((value) => value !== "");
 }
 
+function handleDelete(getCurrentProductId){
+  // console.log(getCurrentProductId)
+  dispatch(deleteProduct(getCurrentProductId)).then(data=>{
+    if(data?.payload?.success){
+      dispatch(fetchAllProducts())
+
+    }
+  })
+}
 
 
   useEffect(() => {
@@ -104,6 +114,7 @@ function AdminProducts() {
                 setFormData={setFormData}
                 setCurrentEditedId={setCurrentEditedId}
                 product={productItem}
+                handleDelete={handleDelete}
               />
             ))
           : null}

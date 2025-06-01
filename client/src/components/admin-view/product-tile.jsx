@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
-function AdminProductTile({ product, setOpenCreateProductsDialog, setCurrentEditedId, setFormData }) {
+function AdminProductTile({ product, setOpenCreateProductsDialog, setCurrentEditedId, setFormData,handleDelete }) {
   const hasSale = product?.salePrice > 0;
 
   return (
@@ -42,7 +42,7 @@ function AdminProductTile({ product, setOpenCreateProductsDialog, setCurrentEdit
           >
             Edit
           </Button>
-          <Button variant="destructive">Delete</Button>
+          <Button onClick={()=>handleDelete(product?._id)} variant="destructive">Delete</Button>
         </CardFooter>
       </div>
     </Card>
