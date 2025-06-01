@@ -1,5 +1,5 @@
 import { Route,Routes, } from "react-router-dom"
-import Authlayout from "./pages/layout"
+import Authlayout from "./pages/auth/layout"
 import AuthLoign from "./pages/auth/login"
 import AuthRegister from "./pages/auth/register"
 import AdminLayout from "./components/admin-view/layout"
