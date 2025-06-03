@@ -4,8 +4,9 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
-import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenu, DropdownMenuLabel, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { DropdownMenuContent } from "../ui/dropdown-menu";
 
 
     function MenuItems(){
@@ -18,8 +19,9 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
         </nav>
     }
 
-
     function HeaderRightContent(){
+         const {user}  = useSelector(state=>state.auth)
+
         return <div className="flex lg:items-center lg:flex-row flex-col gap-4">
             <Button variant="outline" size="icon">
                  <ShoppingCart className="w-6 h-6"/>
@@ -29,19 +31,20 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Avatar className="bg-black">
-                        <AvatarFallback  className="bg-black text-white font-extrabold">SG</AvatarFallback>
+                        <AvatarFallback  className="bg-black text-white font-extrabold">{user?.userName[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
+                <DropdownMenuContent side="right" className="w-56 ">
+                    <DropdownMenuLabel>Logged in as </DropdownMenuLabel>
+                </DropdownMenuContent>
             </DropdownMenu>
         </div>
     }
 
 function ShoppingHeader() {
 
-
-
+    const {isAuthenticated,user}  = useSelector(state=>state.auth)
    
-    const {isAuthenticated}  = useSelector(state=>state.auth)
 
     return ( 
         <header className="sticky top-0 z-40 w-full border-b bg-background">
