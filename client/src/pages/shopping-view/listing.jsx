@@ -2,9 +2,10 @@ import ProductFilter from "@/components/shopping-view/filter";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
+import { fetchAllFilteredProducts } from "@/store/shop/products-slice";
 import { ArrowUp, ArrowUpDown } from "lucide-react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function ShoppingListing() {
@@ -12,10 +13,18 @@ function ShoppingListing() {
 
        const dispatch = useDispatch()
 
-        // fetch list of products
+       const {productList} = useSelector(state=>state.shopProducts)
+
+      
+
+
+        useEffect(()=>{
+            dispatch(fetchAllFilteredProducts())
+        },[dispatch])
 
 
 
+        console.log(productList,'Products')
 
 
 
