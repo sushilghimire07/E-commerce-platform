@@ -3,9 +3,22 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
 import { ArrowUp, ArrowUpDown } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 
 function ShoppingListing() {
+
+
+       const dispatch = useDispatch()
+
+        // fetch list of products
+
+
+
+
+
+
     return ( 
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
             <ProductFilter/>  
@@ -38,6 +51,9 @@ function ShoppingListing() {
                         </DropdownMenu>
                         </div>
                       
+                </div>
+                <div className="gird  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+
                 </div>
             </div>
         </div>

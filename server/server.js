@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import cors  from 'cors'
 import authRouter from './routes/auth/auth-route.js'
 import adminProductsRouter from './routes/admin/products-route.js'
+import shopProductsRouter from './routes/shop/products-routes.js'
 
 dotenv.config()
 
@@ -37,6 +38,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth',authRouter)
 app.use('/api/admin/products',adminProductsRouter)
+app.use('/api/shop/products',shopProductsRouter)
+
 
 app.listen(PORT,()=>{
  console.log(`Server is running on port : ${PORT}`)
